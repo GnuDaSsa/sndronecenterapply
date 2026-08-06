@@ -363,7 +363,12 @@ function Index() {
   };
 
   const doAdminLogin = async () => {
-    const res = await login({ data: { password: adminPw } });
+    const pw = adminPw.trim();
+    if (!pw) {
+      setAdminErr("관리자 비밀번호를 입력해 주세요.");
+      return;
+    }
+    const res = await login({ data: { password: pw } });
     if (!res.ok) {
       setAdminErr(res.error);
       return;
