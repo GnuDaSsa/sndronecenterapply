@@ -1639,7 +1639,10 @@ function Index() {
                           borderTop: "1px solid #f0eef1",
                           alignItems: "center",
                           fontSize: 16,
+                          background: adminTab === "past" ? "#fbfafb" : "#ffffff",
+                          color: adminTab === "past" ? "#696969" : "inherit",
                         }}
+
                       >
                         <div>{`${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())} (${DOW[d.getDay()]})`}</div>
                         <div style={{ fontWeight: 700 }}>{rangeLabel(r.hours)}</div>
