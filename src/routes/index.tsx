@@ -108,6 +108,28 @@ function Index() {
     if (toastTimer.current) clearTimeout(toastTimer.current);
   }, []);
 
+  const [adminTab, setAdminTab] = useState<"upcoming" | "past">("upcoming");
+  const [nowTick, setNowTick] = useState(() => Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNowTick(Date.now()), 60000);
+    return () => clearInterval(t);
+  }, []);
+
+  const isPastHour = useCallback(
+    (dateKey: string, hour: number) => {
+      const d = parseKey(dateKey);
+      d.setHours(hour + 1, 0, 0, 0);
+      return d.getTime() <= nowTick;
+    },
+    [nowTick],
+  );
+  const isPastReservation = useCallback(
+    (r: { date: string; hours: number[] }) =>
+      r.hours.length > 0 && r.hours.every((h) => isPastHour(r.date, h)),
+    [isPastHour],
+  );
+
+
   const listQuery = useQuery({
     queryKey: ["reservations"],
     queryFn: async () => (await fetchList()).reservations as Reservation[],
