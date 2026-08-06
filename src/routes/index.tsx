@@ -411,7 +411,24 @@ function Index() {
           borderBottom: "1px solid #e6e6e6",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <button
+          type="button"
+          onClick={() => {
+            setScreen("calendar");
+            setHelp(false);
+            closeDetail();
+          }}
+          title="메인 화면으로"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            border: "none",
+            background: "transparent",
+            padding: 0,
+            cursor: "pointer",
+          }}
+        >
           <img
             src={symbolAsset.url}
             alt="성남시"
@@ -437,7 +454,8 @@ function Index() {
           >
             회의실 대관
           </span>
-        </div>
+        </button>
+
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <button
             onClick={() => {
