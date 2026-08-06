@@ -1248,10 +1248,6 @@ function Index() {
                       </button>
                     );
                   })}
-
-                      </button>
-                    );
-                  })}
                 </div>
                 <div
                   style={{
