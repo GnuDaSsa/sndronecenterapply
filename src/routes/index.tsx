@@ -1573,6 +1573,32 @@ function Index() {
                   ))}
                 </div>
 
+                <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                  {([
+                    { k: "upcoming" as const, l: `진행·예정 (${adminUpcomingRows.length})` },
+                    { k: "past" as const, l: `과거 내역 (${adminPastRows.length})` },
+                  ]).map((t) => (
+                    <button
+                      key={t.k}
+                      onClick={() => setAdminTab(t.k)}
+                      style={{
+                        cursor: "pointer",
+                        border: `1px solid ${adminTab === t.k ? "#4a154b" : "#e6e6e6"}`,
+                        background: adminTab === t.k ? "#4a154b" : "#ffffff",
+                        color: adminTab === t.k ? "#ffffff" : "#696969",
+                        fontSize: 14.4,
+                        fontWeight: 700,
+                        letterSpacing: "0.144px",
+                        padding: "9px 20px",
+                        borderRadius: 90,
+                      }}
+                    >
+                      {t.l}
+                    </button>
+                  ))}
+                </div>
+
+
                 <div
                   style={{
                     border: "1px solid #e6e6e6",
