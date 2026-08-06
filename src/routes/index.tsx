@@ -1534,7 +1534,9 @@ function Index() {
                   {[
                     { v: adminRows.length, l: "등록된 예약 건수" },
                     { v: statDepts, l: "이용 팀 수" },
-                    { v: statUpcoming, l: "오늘 이후 예약" },
+                    { v: statUpcoming, l: "진행·예정 예약" },
+                    { v: adminPastRows.length, l: "과거 내역" },
+
                   ].map((s) => (
                     <div
                       key={s.l}
