@@ -1184,25 +1184,37 @@ function Index() {
                   {HOURS.map((h) => {
                     const b = dayList.find((r) => r.hours.includes(h)) ?? null;
                     const picked = sel.includes(h);
+                    const past = isPastHour(selectedDate, h);
                     return (
                       <button
                         key={h}
+                        disabled={past && !b}
                         onClick={() =>
                           b
                             ? openDetail(b.id, h)
-                            : (setError(""),
-                              setSel((prev) =>
-                                prev.includes(h)
-                                  ? prev.filter((x) => x !== h)
-                                  : prev.concat(h),
-                              ))
+                            : past
+                              ? undefined
+                              : (setError(""),
+                                setSel((prev) =>
+                                  prev.includes(h)
+                                    ? prev.filter((x) => x !== h)
+                                    : prev.concat(h),
+                                ))
                         }
                         style={{
                           textAlign: "left",
-                          cursor: "pointer",
+                          cursor: past && !b ? "not-allowed" : "pointer",
                           border: `1px solid ${b ? "#4a154b" : picked ? "#4a154b" : "#e6e6e6"}`,
-                          background: b ? "#4a154b" : picked ? "#f9f0ff" : "#ffffff",
-                          color: b ? "#ffffff" : picked ? "#4a154b" : "#696969",
+                          background: b
+                            ? past
+                              ? "#8d7b8e"
+                              : "#4a154b"
+                            : picked
+                              ? "#f9f0ff"
+                              : past
+                                ? "#f3f2f4"
+                                : "#ffffff",
+                          color: b ? "#ffffff" : picked ? "#4a154b" : past ? "#b3b0b5" : "#696969",
                           borderRadius: 8,
                           padding: "12px 12px",
                           display: "flex",
@@ -1225,8 +1237,18 @@ function Index() {
                             maxWidth: "100%",
                           }}
                         >
-                          {b ? b.dept : picked ? "선택됨" : "예약 가능"}
+                          {b
+                            ? `${b.dept}${past ? " · 지난 예약" : ""}`
+                            : picked
+                              ? "선택됨"
+                              : past
+                                ? "지난 시간"
+                                : "예약 가능"}
                         </span>
+                      </button>
+                    );
+                  })}
+
                       </button>
                     );
                   })}
