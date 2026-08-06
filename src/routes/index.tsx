@@ -108,6 +108,28 @@ function Index() {
     if (toastTimer.current) clearTimeout(toastTimer.current);
   }, []);
 
+  const [adminTab, setAdminTab] = useState<"upcoming" | "past">("upcoming");
+  const [nowTick, setNowTick] = useState(() => Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNowTick(Date.now()), 60000);
+    return () => clearInterval(t);
+  }, []);
+
+  const isPastHour = useCallback(
+    (dateKey: string, hour: number) => {
+      const d = parseKey(dateKey);
+      d.setHours(hour + 1, 0, 0, 0);
+      return d.getTime() <= nowTick;
+    },
+    [nowTick],
+  );
+  const isPastReservation = useCallback(
+    (r: { date: string; hours: number[] }) =>
+      r.hours.length > 0 && r.hours.every((h) => isPastHour(r.date, h)),
+    [isPastHour],
+  );
+
+
   const listQuery = useQuery({
     queryKey: ["reservations"],
     queryFn: async () => (await fetchList()).reservations as Reservation[],
@@ -352,7 +374,11 @@ function Index() {
   };
 
   const statDepts = new Set(adminRows.map((r) => r.dept)).size;
-  const statUpcoming = adminRows.filter((r) => r.date >= todayKey).length;
+  const adminPastRows = adminRows.filter((r) => isPastReservation(r));
+  const adminUpcomingRows = adminRows.filter((r) => !isPastReservation(r));
+  const statUpcoming = adminUpcomingRows.length;
+  const visibleAdminRows = adminTab === "past" ? adminPastRows : adminUpcomingRows;
+
 
   const helpSteps = [
     {
@@ -411,7 +437,24 @@ function Index() {
           borderBottom: "1px solid #e6e6e6",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <button
+          type="button"
+          onClick={() => {
+            setScreen("calendar");
+            setHelp(false);
+            closeDetail();
+          }}
+          title="메인 화면으로"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            border: "none",
+            background: "transparent",
+            padding: 0,
+            cursor: "pointer",
+          }}
+        >
           <img
             src={symbolAsset.url}
             alt="성남시"
@@ -437,7 +480,8 @@ function Index() {
           >
             회의실 대관
           </span>
-        </div>
+        </button>
+
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <button
             onClick={() => {
@@ -1140,25 +1184,37 @@ function Index() {
                   {HOURS.map((h) => {
                     const b = dayList.find((r) => r.hours.includes(h)) ?? null;
                     const picked = sel.includes(h);
+                    const past = isPastHour(selectedDate, h);
                     return (
                       <button
                         key={h}
+                        disabled={past && !b}
                         onClick={() =>
                           b
                             ? openDetail(b.id, h)
-                            : (setError(""),
-                              setSel((prev) =>
-                                prev.includes(h)
-                                  ? prev.filter((x) => x !== h)
-                                  : prev.concat(h),
-                              ))
+                            : past
+                              ? undefined
+                              : (setError(""),
+                                setSel((prev) =>
+                                  prev.includes(h)
+                                    ? prev.filter((x) => x !== h)
+                                    : prev.concat(h),
+                                ))
                         }
                         style={{
                           textAlign: "left",
-                          cursor: "pointer",
+                          cursor: past && !b ? "not-allowed" : "pointer",
                           border: `1px solid ${b ? "#4a154b" : picked ? "#4a154b" : "#e6e6e6"}`,
-                          background: b ? "#4a154b" : picked ? "#f9f0ff" : "#ffffff",
-                          color: b ? "#ffffff" : picked ? "#4a154b" : "#696969",
+                          background: b
+                            ? past
+                              ? "#8d7b8e"
+                              : "#4a154b"
+                            : picked
+                              ? "#f9f0ff"
+                              : past
+                                ? "#f3f2f4"
+                                : "#ffffff",
+                          color: b ? "#ffffff" : picked ? "#4a154b" : past ? "#b3b0b5" : "#696969",
                           borderRadius: 8,
                           padding: "12px 12px",
                           display: "flex",
@@ -1181,7 +1237,13 @@ function Index() {
                             maxWidth: "100%",
                           }}
                         >
-                          {b ? b.dept : picked ? "선택됨" : "예약 가능"}
+                          {b
+                            ? `${b.dept}${past ? " · 지난 예약" : ""}`
+                            : picked
+                              ? "선택됨"
+                              : past
+                                ? "지난 시간"
+                                : "예약 가능"}
                         </span>
                       </button>
                     );
@@ -1490,7 +1552,9 @@ function Index() {
                   {[
                     { v: adminRows.length, l: "등록된 예약 건수" },
                     { v: statDepts, l: "이용 팀 수" },
-                    { v: statUpcoming, l: "오늘 이후 예약" },
+                    { v: statUpcoming, l: "진행·예정 예약" },
+                    { v: adminPastRows.length, l: "과거 내역" },
+
                   ].map((s) => (
                     <div
                       key={s.l}
@@ -1527,6 +1591,32 @@ function Index() {
                   ))}
                 </div>
 
+                <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                  {([
+                    { k: "upcoming" as const, l: `진행·예정 (${adminUpcomingRows.length})` },
+                    { k: "past" as const, l: `과거 내역 (${adminPastRows.length})` },
+                  ]).map((t) => (
+                    <button
+                      key={t.k}
+                      onClick={() => setAdminTab(t.k)}
+                      style={{
+                        cursor: "pointer",
+                        border: `1px solid ${adminTab === t.k ? "#4a154b" : "#e6e6e6"}`,
+                        background: adminTab === t.k ? "#4a154b" : "#ffffff",
+                        color: adminTab === t.k ? "#ffffff" : "#696969",
+                        fontSize: 14.4,
+                        fontWeight: 700,
+                        letterSpacing: "0.144px",
+                        padding: "9px 20px",
+                        borderRadius: 90,
+                      }}
+                    >
+                      {t.l}
+                    </button>
+                  ))}
+                </div>
+
+
                 <div
                   style={{
                     border: "1px solid #e6e6e6",
@@ -1554,7 +1644,7 @@ function Index() {
                     <div>내선</div>
                     <div />
                   </div>
-                  {adminRows.map((r) => {
+                  {visibleAdminRows.map((r) => {
                     const d = parseKey(r.date);
                     return (
                       <div
@@ -1567,7 +1657,10 @@ function Index() {
                           borderTop: "1px solid #f0eef1",
                           alignItems: "center",
                           fontSize: 16,
+                          background: adminTab === "past" ? "#fbfafb" : "#ffffff",
+                          color: adminTab === "past" ? "#696969" : "inherit",
                         }}
+
                       >
                         <div>{`${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())} (${DOW[d.getDay()]})`}</div>
                         <div style={{ fontWeight: 700 }}>{rangeLabel(r.hours)}</div>
@@ -1602,7 +1695,7 @@ function Index() {
                       </div>
                     );
                   })}
-                  {adminRows.length === 0 && (
+                  {visibleAdminRows.length === 0 && (
                     <div
                       style={{
                         padding: "40px 20px",
@@ -1611,9 +1704,12 @@ function Index() {
                         color: "#696969",
                       }}
                     >
-                      등록된 예약이 없습니다.
+                      {adminTab === "past"
+                        ? "과거 내역이 없습니다."
+                        : "등록된 예약이 없습니다."}
                     </div>
                   )}
+
                 </div>
               </>
             )}
@@ -1862,6 +1958,7 @@ function Index() {
 
       {help && (
         <div
+          onClick={() => setHelp(false)}
           style={{
             position: "fixed",
             inset: 0,
@@ -1874,6 +1971,9 @@ function Index() {
           }}
         >
           <div
+            onClick={(e) => e.stopPropagation()}
+
+
             style={{
               width: "100%",
               maxWidth: 720,
