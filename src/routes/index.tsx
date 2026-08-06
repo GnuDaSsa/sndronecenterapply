@@ -1626,7 +1626,7 @@ function Index() {
                     <div>내선</div>
                     <div />
                   </div>
-                  {adminRows.map((r) => {
+                  {visibleAdminRows.map((r) => {
                     const d = parseKey(r.date);
                     return (
                       <div
