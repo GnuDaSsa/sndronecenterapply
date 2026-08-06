@@ -1677,7 +1677,7 @@ function Index() {
                       </div>
                     );
                   })}
-                  {adminRows.length === 0 && (
+                  {visibleAdminRows.length === 0 && (
                     <div
                       style={{
                         padding: "40px 20px",
@@ -1686,9 +1686,12 @@ function Index() {
                         color: "#696969",
                       }}
                     >
-                      등록된 예약이 없습니다.
+                      {adminTab === "past"
+                        ? "과거 내역이 없습니다."
+                        : "등록된 예약이 없습니다."}
                     </div>
                   )}
+
                 </div>
               </>
             )}
