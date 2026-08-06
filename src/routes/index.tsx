@@ -374,7 +374,11 @@ function Index() {
   };
 
   const statDepts = new Set(adminRows.map((r) => r.dept)).size;
-  const statUpcoming = adminRows.filter((r) => r.date >= todayKey).length;
+  const adminPastRows = adminRows.filter((r) => isPastReservation(r));
+  const adminUpcomingRows = adminRows.filter((r) => !isPastReservation(r));
+  const statUpcoming = adminUpcomingRows.length;
+  const visibleAdminRows = adminTab === "past" ? adminPastRows : adminUpcomingRows;
+
 
   const helpSteps = [
     {
