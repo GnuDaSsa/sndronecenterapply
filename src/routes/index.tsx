@@ -1880,6 +1880,7 @@ function Index() {
 
       {help && (
         <div
+          onClick={() => setHelp(false)}
           style={{
             position: "fixed",
             inset: 0,
@@ -1892,6 +1893,8 @@ function Index() {
           }}
         >
           <div
+            onClick={(e) => e.stopPropagation()}
+
             style={{
               width: "100%",
               maxWidth: 720,
