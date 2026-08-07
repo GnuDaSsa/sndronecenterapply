@@ -663,11 +663,12 @@ function Index() {
                   border: "2px solid #4a154b",
                   background: "#ffffff",
                   color: "#4a154b",
-                  fontSize: 14.4,
+                  fontSize: isMobile ? 13 : 14.4,
                   fontWeight: 700,
                   letterSpacing: "0.144px",
-                  padding: "8px 24px",
+                  padding: isMobile ? "8px 14px" : "8px 24px",
                   borderRadius: 90,
+                  flex: isMobile ? "1 1 auto" : undefined,
                 }}
               >
                 예약·취소 방법 안내
@@ -686,9 +687,9 @@ function Index() {
                   style={{
                     cursor: "pointer",
                     border: "none",
-                    padding: "9px 26px",
+                    padding: isMobile ? "8px 18px" : "9px 26px",
                     borderRadius: 90,
-                    fontSize: 14.4,
+                    fontSize: isMobile ? 13 : 14.4,
                     fontWeight: 700,
                     letterSpacing: "0.144px",
                     background: isMonthView ? "#4a154b" : "transparent",
@@ -702,9 +703,9 @@ function Index() {
                   style={{
                     cursor: "pointer",
                     border: "none",
-                    padding: "9px 26px",
+                    padding: isMobile ? "8px 18px" : "9px 26px",
                     borderRadius: 90,
-                    fontSize: 14.4,
+                    fontSize: isMobile ? 13 : 14.4,
                     fontWeight: 700,
                     letterSpacing: "0.144px",
                     background: isMonthView ? "transparent" : "#4a154b",
