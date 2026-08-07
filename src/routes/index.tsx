@@ -1454,7 +1454,11 @@ function Index() {
       {screen === "admin" && (
         <div style={{ flex: 1, background: "#ffffff" }}>
           <div
-            style={{ maxWidth: 1240, margin: "0 auto", padding: "40px 24px 96px" }}
+            style={{
+              maxWidth: 1240,
+              margin: "0 auto",
+              padding: isMobile ? "24px 14px 64px" : "40px 24px 96px",
+            }}
           >
             <button
               onClick={() => setScreen("calendar")}
@@ -1485,7 +1489,7 @@ function Index() {
             <h2
               style={{
                 margin: "10px 0 24px",
-                fontSize: 32,
+                fontSize: isMobile ? 24 : 32,
                 fontWeight: 700,
                 lineHeight: 1.25,
                 letterSpacing: "-0.256px",
