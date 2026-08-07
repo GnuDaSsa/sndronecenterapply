@@ -1982,31 +1982,29 @@ function Index() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: 24,
+            padding: isMobile ? 10 : 24,
             zIndex: 45,
           }}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-
-
             style={{
               width: "100%",
               maxWidth: 720,
-              maxHeight: "84vh",
+              maxHeight: isMobile ? "92vh" : "84vh",
               overflowY: "auto",
               background: "#ffffff",
               borderRadius: 16,
-              padding: 32,
+              padding: isMobile ? 18 : 32,
               animation: "om-pop 0.18s ease-out",
               boxShadow: "rgba(0,0,0,0.2) 0 1px 10px 0",
             }}
           >
             <h3
               style={{
-                margin: "0 0 24px",
+                margin: isMobile ? "0 0 18px" : "0 0 24px",
                 fontFamily: "'Nanum Myeongjo', serif",
-                fontSize: 32,
+                fontSize: isMobile ? 24 : 32,
                 fontWeight: 800,
                 lineHeight: 1.25,
                 letterSpacing: "-1px",
@@ -2016,56 +2014,141 @@ function Index() {
               예약·취소 방법 안내
             </h3>
 
+            {/* 섹션 1 : 예약 방법 */}
             <div
               style={{
-                fontSize: 12,
-                fontWeight: 700,
-                letterSpacing: "0.96px",
-                textTransform: "uppercase",
-                color: "#696969",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                background: "#f9f0ff",
+                borderLeft: "6px solid #4a154b",
+                borderRadius: 10,
+                padding: isMobile ? "12px 14px" : "14px 18px",
               }}
             >
-              예약하기
+              <span
+                style={{
+                  fontSize: isMobile ? 18 : 22,
+                  fontWeight: 800,
+                  color: "#4a154b",
+                  letterSpacing: "-0.4px",
+                }}
+              >
+                예약 방법
+              </span>
+              <span
+                style={{
+                  fontSize: isMobile ? 12 : 13,
+                  color: "#696969",
+                  fontWeight: 700,
+                }}
+              >
+                4단계
+              </span>
             </div>
-            <ol
+            <div
               style={{
-                margin: "12px 0 28px",
-                paddingLeft: 20,
                 display: "flex",
                 flexDirection: "column",
-                gap: 8,
-                fontSize: 16,
-                lineHeight: 1.55,
+                gap: 12,
+                margin: isMobile ? "14px 0 28px" : "18px 0 36px",
               }}
             >
-              <li>달력에서 원하는 날짜를 클릭합니다.</li>
-              <li>
-                예약 화면에서 사용할 시간 블록을 선택합니다. 여러 블록을 함께 선택할
-                수 있고, 보라색으로 채워진 시간은 이미 예약된 시간입니다.
-              </li>
-              <li>팀, 예약자 이름, 내선 뒷 4자리, 비밀번호 4자리를 입력합니다.</li>
-              <li>
-                예약하기를 누르면 완료되며 달력에 팀명, 내선 번호, 시간이 표시됩니다.
-              </li>
-            </ol>
+              {[
+                {
+                  n: "1",
+                  t: "달력에서 원하는 날짜를 클릭합니다.",
+                },
+                {
+                  n: "2",
+                  t: "예약 화면에서 사용할 시간 블록을 선택합니다. 여러 블록을 함께 선택할 수 있고, 보라색으로 채워진 시간은 이미 예약된 시간입니다.",
+                },
+                {
+                  n: "3",
+                  t: "팀, 예약자 이름, 내선 뒷 4자리, 비밀번호 4자리를 입력합니다.",
+                },
+                {
+                  n: "4",
+                  t: "예약하기를 누르면 완료되며 달력에 팀명, 내선 번호, 시간이 표시됩니다.",
+                },
+              ].map((s) => (
+                <div
+                  key={s.n}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: `${isMobile ? 28 : 32}px minmax(0, 1fr)`,
+                    gap: 12,
+                    alignItems: "start",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: isMobile ? 28 : 32,
+                      height: isMobile ? 28 : 32,
+                      borderRadius: 90,
+                      background: "#4a154b",
+                      color: "#ffffff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: isMobile ? 13 : 15,
+                      fontWeight: 700,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {s.n}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: isMobile ? 14 : 16,
+                      lineHeight: 1.55,
+                      paddingTop: 3,
+                    }}
+                  >
+                    {s.t}
+                  </div>
+                </div>
+              ))}
+            </div>
 
+            {/* 섹션 2 : 예약 변경·취소 방법 */}
             <div
               style={{
-                fontSize: 12,
-                fontWeight: 700,
-                letterSpacing: "0.96px",
-                textTransform: "uppercase",
-                color: "#696969",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                background: "#f4ede4",
+                borderLeft: "6px solid #cc4117",
+                borderRadius: 10,
+                padding: isMobile ? "12px 14px" : "14px 18px",
               }}
             >
-              수정·취소하기
+              <span
+                style={{
+                  fontSize: isMobile ? 18 : 22,
+                  fontWeight: 800,
+                  color: "#cc4117",
+                  letterSpacing: "-0.4px",
+                }}
+              >
+                예약 변경·취소 방법
+              </span>
+              <span
+                style={{
+                  fontSize: isMobile ? 12 : 13,
+                  color: "#696969",
+                  fontWeight: 700,
+                }}
+              >
+                4단계
+              </span>
             </div>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: 20,
-                margin: "16px 0 28px",
+                gap: isMobile ? 18 : 20,
+                margin: isMobile ? "14px 0 24px" : "18px 0 28px",
               }}
             >
               {helpSteps.map((s) => (
@@ -2073,23 +2156,24 @@ function Index() {
                   key={s.n}
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "40px minmax(0, 1fr)",
-                    gap: 16,
+                    gridTemplateColumns: `${isMobile ? 28 : 40}px minmax(0, 1fr)`,
+                    gap: isMobile ? 12 : 16,
                     alignItems: "start",
                   }}
                 >
                   <div
                     style={{
-                      width: 40,
-                      height: 40,
+                      width: isMobile ? 28 : 40,
+                      height: isMobile ? 28 : 40,
                       borderRadius: 90,
-                      background: "#4a154b",
+                      background: "#cc4117",
                       color: "#ffffff",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: 16,
+                      fontSize: isMobile ? 13 : 16,
                       fontWeight: 700,
+                      flexShrink: 0,
                     }}
                   >
                     {s.n}
@@ -2097,18 +2181,28 @@ function Index() {
                   <div
                     style={{ display: "flex", flexDirection: "column", gap: 10 }}
                   >
-                    <div style={{ fontSize: 16, fontWeight: 700, lineHeight: 1.5 }}>
+                    <div
+                      style={{
+                        fontSize: isMobile ? 14 : 16,
+                        fontWeight: 700,
+                        lineHeight: 1.5,
+                      }}
+                    >
                       {s.title}
                     </div>
                     <div
-                      style={{ fontSize: 14, lineHeight: 1.55, color: "#696969" }}
+                      style={{
+                        fontSize: isMobile ? 13 : 14,
+                        lineHeight: 1.55,
+                        color: "#696969",
+                      }}
                     >
                       {s.desc}
                     </div>
                     <div
                       style={{
                         width: "100%",
-                        height: s.height,
+                        height: isMobile ? Math.round(s.height * 0.62) : s.height,
                         borderRadius: 12,
                         overflow: "hidden",
                         border: "1px solid #e6e6e6",
@@ -2135,8 +2229,8 @@ function Index() {
               style={{
                 background: "#f4ede4",
                 borderRadius: 12,
-                padding: 20,
-                fontSize: 14,
+                padding: isMobile ? 16 : 20,
+                fontSize: isMobile ? 13 : 14,
                 lineHeight: 1.55,
                 color: "#1d1d1d",
               }}
@@ -2150,6 +2244,7 @@ function Index() {
                 onClick={() => setHelp(false)}
                 style={{
                   marginLeft: "auto",
+                  width: isMobile ? "100%" : "auto",
                   cursor: "pointer",
                   border: "none",
                   background: "#4a154b",
