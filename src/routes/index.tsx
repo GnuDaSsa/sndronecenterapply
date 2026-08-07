@@ -613,9 +613,10 @@ function Index() {
                 </button>
                 <div
                   style={{
-                    minWidth: 200,
+                    minWidth: isMobile ? 0 : 200,
+                    flex: isMobile ? 1 : undefined,
                     textAlign: "center",
-                    fontSize: 24,
+                    fontSize: isMobile ? 17 : 24,
                     fontWeight: 700,
                     lineHeight: 1.33,
                     letterSpacing: "-0.096px",
