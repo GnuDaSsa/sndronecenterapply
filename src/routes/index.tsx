@@ -898,16 +898,17 @@ function Index() {
                         key={k}
                         onClick={() => openDate(k)}
                         style={{
-                          padding: "12px 10px",
+                          padding: isMobile ? "8px 3px" : "12px 10px",
                           cursor: "pointer",
                           background: k === todayKey ? "#faf6fb" : "#ffffff",
+                          minWidth: 0,
                         }}
                       >
                         <div
                           style={{
-                            fontSize: 12,
+                            fontSize: isMobile ? 10 : 12,
                             fontWeight: 700,
-                            letterSpacing: "0.96px",
+                            letterSpacing: isMobile ? "0" : "0.96px",
                             color: "#696969",
                           }}
                         >
@@ -915,7 +916,7 @@ function Index() {
                         </div>
                         <div
                           style={{
-                            fontSize: 18,
+                            fontSize: isMobile ? 12 : 18,
                             fontWeight: 700,
                             letterSpacing: "-0.0216px",
                             color: k === todayKey ? "#4a154b" : "#1d1d1d",
