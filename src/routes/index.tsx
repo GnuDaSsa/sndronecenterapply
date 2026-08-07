@@ -1559,9 +1559,11 @@ function Index() {
               <>
                 <div
                   style={{
-                    display: "flex",
-                    gap: 16,
-                    flexWrap: "wrap",
+                    display: "grid",
+                    gridTemplateColumns: isMobile
+                      ? "repeat(2, minmax(0, 1fr))"
+                      : "repeat(4, minmax(0, 1fr))",
+                    gap: isMobile ? 10 : 16,
                     marginBottom: 24,
                   }}
                 >
@@ -1575,17 +1577,15 @@ function Index() {
                     <div
                       key={s.l}
                       style={{
-                        flex: 1,
-                        minWidth: 200,
                         background: "#ffffff",
                         border: "1px solid #e6e6e6",
                         borderRadius: 16,
-                        padding: 24,
+                        padding: isMobile ? 14 : 24,
                       }}
                     >
                       <div
                         style={{
-                          fontSize: 50,
+                          fontSize: isMobile ? 30 : 50,
                           fontWeight: 700,
                           lineHeight: 1.12,
                           letterSpacing: "-0.6px",
