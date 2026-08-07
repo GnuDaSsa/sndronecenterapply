@@ -573,12 +573,19 @@ function Index() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                gap: 16,
+                gap: isMobile ? 10 : 16,
                 flexWrap: "wrap",
-                marginTop: 36,
+                marginTop: isMobile ? 22 : 36,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: isMobile ? 6 : 12,
+                  width: isMobile ? "100%" : undefined,
+                }}
+              >
                 <button
                   onClick={() =>
                     isMonthView
