@@ -1044,7 +1044,7 @@ function Index() {
             style={{
               maxWidth: 1240,
               margin: "0 auto",
-              padding: "40px 24px 96px",
+              padding: isMobile ? "24px 14px 64px" : "40px 24px 96px",
             }}
           >
             <button
