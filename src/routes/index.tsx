@@ -871,7 +871,9 @@ function Index() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "124px repeat(7, 1fr)",
+                    gridTemplateColumns: isMobile
+                      ? "54px repeat(7, minmax(0, 1fr))"
+                      : "124px repeat(7, 1fr)",
                     borderBottom: "1px solid #e6e6e6",
                     position: "sticky",
                     top: 0,
@@ -880,7 +882,7 @@ function Index() {
                 >
                   <div
                     style={{
-                      padding: "12px 10px",
+                      padding: isMobile ? "10px 4px" : "12px 10px",
                       fontSize: 12,
                       fontWeight: 700,
                       letterSpacing: "0.96px",
