@@ -780,23 +780,27 @@ function Index() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          gap: 6,
+                          gap: isMobile ? 2 : 6,
                         }}
                       >
                         <span
-                          style={{ fontSize: 16, fontWeight: 700, color: c.numColor }}
+                          style={{
+                            fontSize: isMobile ? 12 : 16,
+                            fontWeight: 700,
+                            color: c.numColor,
+                          }}
                         >
                           {c.dayLabel}
                         </span>
                         {c.isToday && (
                           <span
                             style={{
-                              fontSize: 12,
+                              fontSize: isMobile ? 9 : 12,
                               fontWeight: 700,
-                              letterSpacing: "0.96px",
+                              letterSpacing: isMobile ? "0" : "0.96px",
                               color: "#ffffff",
                               background: "#4a154b",
-                              padding: "2px 8px",
+                              padding: isMobile ? "1px 5px" : "2px 8px",
                               borderRadius: 90,
                             }}
                           >
