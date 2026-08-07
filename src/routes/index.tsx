@@ -931,20 +931,24 @@ function Index() {
                       key={h}
                       style={{
                         display: "grid",
-                        gridTemplateColumns: "124px repeat(7, 1fr)",
+                        gridTemplateColumns: isMobile
+                          ? "54px repeat(7, minmax(0, 1fr))"
+                          : "124px repeat(7, 1fr)",
                         borderBottom: "1px solid #f4f2f5",
                       }}
                     >
                       <div
                         style={{
-                          padding: "6px 10px",
-                          fontSize: 12,
+                          padding: isMobile ? "6px 4px" : "6px 10px",
+                          fontSize: isMobile ? 11 : 12,
                           color: "#696969",
                           borderRight: "1px solid #f0eef1",
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {`${pad(h)}:00 – ${pad(h + 1)}:00`}
+                        {isMobile
+                          ? `${pad(h)}시`
+                          : `${pad(h)}:00 – ${pad(h + 1)}:00`}
                       </div>
                       {weekDayDates.map((d) => {
                         const k = keyOf(d);
