@@ -813,12 +813,13 @@ function Index() {
                               gap: 1,
                               background: "#f9f0ff",
                               borderRadius: 4,
-                              padding: "4px 7px",
+                              padding: isMobile ? "2px 3px" : "4px 7px",
+                              minWidth: 0,
                             }}
                           >
                             <span
                               style={{
-                                fontSize: 12,
+                                fontSize: isMobile ? 9 : 12,
                                 fontWeight: 700,
                                 color: "#4a154b",
                                 whiteSpace: "nowrap",
