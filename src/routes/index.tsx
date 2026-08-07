@@ -1076,7 +1076,7 @@ function Index() {
               <h2
                 style={{
                   margin: 0,
-                  fontSize: 32,
+                  fontSize: isMobile ? 22 : 32,
                   fontWeight: 700,
                   lineHeight: 1.25,
                   letterSpacing: "-0.256px",
