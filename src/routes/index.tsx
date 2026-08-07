@@ -1640,28 +1640,100 @@ function Index() {
                     overflow: "hidden",
                   }}
                 >
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1.1fr 0.7fr 1.1fr 0.9fr 0.7fr 90px",
-                      gap: 12,
-                      padding: "14px 20px",
-                      background: "#f4ede4",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      letterSpacing: "0.96px",
-                      color: "#696969",
-                    }}
-                  >
-                    <div>날짜</div>
-                    <div>시간</div>
-                    <div>팀</div>
-                    <div>예약자</div>
-                    <div>내선</div>
-                    <div />
-                  </div>
+                  {!isMobile && (
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1.1fr 0.7fr 1.1fr 0.9fr 0.7fr 90px",
+                        gap: 12,
+                        padding: "14px 20px",
+                        background: "#f4ede4",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        letterSpacing: "0.96px",
+                        color: "#696969",
+                      }}
+                    >
+                      <div>날짜</div>
+                      <div>시간</div>
+                      <div>팀</div>
+                      <div>예약자</div>
+                      <div>내선</div>
+                      <div />
+                    </div>
+                  )}
                   {visibleAdminRows.map((r) => {
                     const d = parseKey(r.date);
+                    const dateLabel = `${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())} (${DOW[d.getDay()]})`;
+                    const onDelete = async () => {
+                      const res = await adminDelete({ data: { id: r.id } });
+                      if (!res.ok) {
+                        setAdminErr(res.error);
+                        return;
+                      }
+                      await adminQuery.refetch();
+                      await listQuery.refetch();
+                      flash("예약을 삭제했습니다.");
+                    };
+                    const deleteBtn = (
+                      <button
+                        onClick={onDelete}
+                        style={{
+                          cursor: "pointer",
+                          border: "2px solid #cc4117",
+                          background: "#ffffff",
+                          color: "#cc4117",
+                          fontSize: 14.4,
+                          fontWeight: 700,
+                          letterSpacing: "0.144px",
+                          padding: "7px 18px",
+                          borderRadius: 90,
+                        }}
+                      >
+                        삭제
+                      </button>
+                    );
+
+                    if (isMobile) {
+                      return (
+                        <div
+                          key={r.id}
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 6,
+                            padding: "14px 14px",
+                            borderTop: "1px solid #f0eef1",
+                            fontSize: 14,
+                            background: adminTab === "past" ? "#fbfafb" : "#ffffff",
+                            color: adminTab === "past" ? "#696969" : "inherit",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "grid",
+                              gridTemplateColumns: "minmax(0,1fr) auto",
+                              gap: 10,
+                              alignItems: "center",
+                            }}
+                          >
+                            <div style={{ minWidth: 0 }}>
+                              <div style={{ fontWeight: 700, fontSize: 15 }}>
+                                {dateLabel}
+                              </div>
+                              <div style={{ fontWeight: 700, color: "#4a154b" }}>
+                                {rangeLabel(r.hours)}
+                              </div>
+                            </div>
+                            {deleteBtn}
+                          </div>
+                          <div style={{ color: "#696969", fontSize: 13 }}>
+                            {`${r.dept} · ${r.name} · 내선 ${r.ext}`}
+                          </div>
+                        </div>
+                      );
+                    }
+
                     return (
                       <div
                         key={r.id}
@@ -1676,38 +1748,13 @@ function Index() {
                           background: adminTab === "past" ? "#fbfafb" : "#ffffff",
                           color: adminTab === "past" ? "#696969" : "inherit",
                         }}
-
                       >
-                        <div>{`${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())} (${DOW[d.getDay()]})`}</div>
+                        <div>{dateLabel}</div>
                         <div style={{ fontWeight: 700 }}>{rangeLabel(r.hours)}</div>
                         <div>{r.dept}</div>
                         <div>{r.name}</div>
                         <div style={{ color: "#696969" }}>{r.ext}</div>
-                        <button
-                          onClick={async () => {
-                            const res = await adminDelete({ data: { id: r.id } });
-                            if (!res.ok) {
-                              setAdminErr(res.error);
-                              return;
-                            }
-                            await adminQuery.refetch();
-                            await listQuery.refetch();
-                            flash("예약을 삭제했습니다.");
-                          }}
-                          style={{
-                            cursor: "pointer",
-                            border: "2px solid #cc4117",
-                            background: "#ffffff",
-                            color: "#cc4117",
-                            fontSize: 14.4,
-                            fontWeight: 700,
-                            letterSpacing: "0.144px",
-                            padding: "7px 18px",
-                            borderRadius: 90,
-                          }}
-                        >
-                          삭제
-                        </button>
+                        {deleteBtn}
                       </div>
                     );
                   })}
