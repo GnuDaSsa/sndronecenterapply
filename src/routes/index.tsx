@@ -831,9 +831,11 @@ function Index() {
                             </span>
                             <span
                               style={{
-                                fontSize: 12,
+                                fontSize: isMobile ? 9 : 12,
                                 color: "#696969",
                                 whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
                               }}
                             >
                               {chip.range}
@@ -843,7 +845,7 @@ function Index() {
                         {c.hasMore && (
                           <span
                             style={{
-                              fontSize: 12,
+                              fontSize: isMobile ? 9 : 12,
                               color: "#696969",
                               paddingLeft: 2,
                             }}
