@@ -1282,7 +1282,7 @@ function Index() {
                 style={{
                   background: "#f4ede4",
                   borderRadius: 16,
-                  padding: 32,
+                  padding: isMobile ? 18 : 32,
                   display: "flex",
                   flexDirection: "column",
                   gap: 16,
