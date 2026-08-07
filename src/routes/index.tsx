@@ -1144,10 +1144,12 @@ function Index() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "minmax(0, 1.35fr) minmax(320px, 0.65fr)",
-                gap: 32,
+                gridTemplateColumns: isMobile
+                  ? "minmax(0, 1fr)"
+                  : "minmax(0, 1.35fr) minmax(320px, 0.65fr)",
+                gap: isMobile ? 16 : 32,
                 alignItems: "start",
-                marginTop: 28,
+                marginTop: isMobile ? 20 : 28,
               }}
             >
               <div
@@ -1155,7 +1157,7 @@ function Index() {
                   background: "#ffffff",
                   border: "1px solid #e6e6e6",
                   borderRadius: 16,
-                  padding: 32,
+                  padding: isMobile ? 16 : 32,
                 }}
               >
                 <div
