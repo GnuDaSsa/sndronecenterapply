@@ -1742,7 +1742,7 @@ function Index() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: 24,
+            padding: isMobile ? 12 : 24,
             zIndex: 40,
           }}
         >
@@ -1750,9 +1750,11 @@ function Index() {
             style={{
               width: "100%",
               maxWidth: 460,
+              maxHeight: "92vh",
+              overflowY: "auto",
               background: "#ffffff",
               borderRadius: 16,
-              padding: 32,
+              padding: isMobile ? 20 : 32,
               animation: "om-pop 0.18s ease-out",
               boxShadow: "rgba(0,0,0,0.2) 0 1px 10px 0",
             }}
