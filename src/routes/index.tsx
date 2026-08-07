@@ -9,6 +9,7 @@ import step2Asset from "@/assets/help-step2.png.asset.json";
 import step3Asset from "@/assets/help-step3.png.asset.json";
 import step4Asset from "@/assets/help-step4.png.asset.json";
 import { DOW, HOURS, keyOf, pad, parseKey, rangeLabel } from "@/lib/booking-utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   adminDeleteReservation,
   adminListReservations,
@@ -65,6 +66,7 @@ function Index() {
 
   const now = new Date();
   const todayKey = keyOf(new Date());
+  const isMobile = useIsMobile();
 
   const [screen, setScreen] = useState<"calendar" | "reserve" | "admin">("calendar");
   const [view, setView] = useState<"month" | "week">("month");
@@ -436,8 +438,8 @@ function Index() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: 24,
-          padding: "16px 24px",
+          gap: isMobile ? 10 : 24,
+          padding: isMobile ? "12px 14px" : "16px 24px",
           background: "#ffffff",
           borderBottom: "1px solid #e6e6e6",
         }}
@@ -453,41 +455,50 @@ function Index() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 12,
+            gap: isMobile ? 8 : 12,
             border: "none",
             background: "transparent",
             padding: 0,
             cursor: "pointer",
+            minWidth: 0,
           }}
         >
           <img
             src={symbolAsset.url}
             alt="성남시"
-            style={{ height: 38, width: "auto", display: "block" }}
+            style={{
+              height: isMobile ? 28 : 38,
+              width: "auto",
+              display: "block",
+              flexShrink: 0,
+            }}
           />
           <span
             style={{
-              fontSize: 20,
+              fontSize: isMobile ? 16 : 20,
               fontWeight: 700,
               letterSpacing: "-0.2px",
               color: "#4a154b",
+              whiteSpace: "nowrap",
             }}
           >
             {ROOM_NAME}
           </span>
-          <span
-            style={{
-              fontSize: 14,
-              lineHeight: 1.43,
-              letterSpacing: "0.1px",
-              color: "#696969",
-            }}
-          >
-            회의실 대관
-          </span>
+          {!isMobile && (
+            <span
+              style={{
+                fontSize: 14,
+                lineHeight: 1.43,
+                letterSpacing: "0.1px",
+                color: "#696969",
+              }}
+            >
+              회의실 대관
+            </span>
+          )}
         </button>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
           <button
             onClick={() => {
               setScreen("admin");
@@ -498,10 +509,10 @@ function Index() {
               cursor: "pointer",
               background: "#4a154b",
               color: "#ffffff",
-              fontSize: 14.4,
+              fontSize: isMobile ? 13 : 14.4,
               fontWeight: 700,
               letterSpacing: "0.144px",
-              padding: "10px 24px",
+              padding: isMobile ? "8px 16px" : "10px 24px",
               borderRadius: 90,
             }}
           >
@@ -527,7 +538,7 @@ function Index() {
               position: "relative",
               maxWidth: 1240,
               margin: "0 auto",
-              padding: "56px 24px 96px",
+              padding: isMobile ? "28px 14px 64px" : "56px 24px 96px",
             }}
           >
             <h1
@@ -535,10 +546,10 @@ function Index() {
                 margin: 0,
                 textAlign: "center",
                 fontFamily: "'Nanum Myeongjo', serif",
-                fontSize: 58,
+                fontSize: isMobile ? 30 : 58,
                 fontWeight: 800,
                 lineHeight: 1.16,
-                letterSpacing: "-1.6px",
+                letterSpacing: isMobile ? "-0.8px" : "-1.6px",
                 color: "#4a154b",
               }}
             >
@@ -546,9 +557,9 @@ function Index() {
             </h1>
             <p
               style={{
-                margin: "14px 0 0",
+                margin: isMobile ? "10px 0 0" : "14px 0 0",
                 textAlign: "center",
-                fontSize: 18,
+                fontSize: isMobile ? 14 : 18,
                 lineHeight: 1.55,
                 letterSpacing: "-0.0216px",
                 color: "#696969",
@@ -562,12 +573,19 @@ function Index() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                gap: 16,
+                gap: isMobile ? 10 : 16,
                 flexWrap: "wrap",
-                marginTop: 36,
+                marginTop: isMobile ? 22 : 36,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: isMobile ? 6 : 12,
+                  width: isMobile ? "100%" : undefined,
+                }}
+              >
                 <button
                   onClick={() =>
                     isMonthView
@@ -602,9 +620,10 @@ function Index() {
                 </button>
                 <div
                   style={{
-                    minWidth: 200,
+                    minWidth: isMobile ? 0 : 200,
+                    flex: isMobile ? 1 : undefined,
                     textAlign: "center",
-                    fontSize: 24,
+                    fontSize: isMobile ? 17 : 24,
                     fontWeight: 700,
                     lineHeight: 1.33,
                     letterSpacing: "-0.096px",
@@ -652,11 +671,12 @@ function Index() {
                   border: "2px solid #4a154b",
                   background: "#ffffff",
                   color: "#4a154b",
-                  fontSize: 14.4,
+                  fontSize: isMobile ? 13 : 14.4,
                   fontWeight: 700,
                   letterSpacing: "0.144px",
-                  padding: "8px 24px",
+                  padding: isMobile ? "8px 14px" : "8px 24px",
                   borderRadius: 90,
+                  flex: isMobile ? "1 1 auto" : undefined,
                 }}
               >
                 예약·취소 방법 안내
@@ -675,9 +695,9 @@ function Index() {
                   style={{
                     cursor: "pointer",
                     border: "none",
-                    padding: "9px 26px",
+                    padding: isMobile ? "8px 18px" : "9px 26px",
                     borderRadius: 90,
-                    fontSize: 14.4,
+                    fontSize: isMobile ? 13 : 14.4,
                     fontWeight: 700,
                     letterSpacing: "0.144px",
                     background: isMonthView ? "#4a154b" : "transparent",
@@ -691,9 +711,9 @@ function Index() {
                   style={{
                     cursor: "pointer",
                     border: "none",
-                    padding: "9px 26px",
+                    padding: isMobile ? "8px 18px" : "9px 26px",
                     borderRadius: 90,
-                    fontSize: 14.4,
+                    fontSize: isMobile ? 13 : 14.4,
                     fontWeight: 700,
                     letterSpacing: "0.144px",
                     background: isMonthView ? "transparent" : "#4a154b",
@@ -727,11 +747,12 @@ function Index() {
                     <div
                       key={d}
                       style={{
-                        padding: "14px 16px",
-                        fontSize: 12,
+                        padding: isMobile ? "8px 4px" : "14px 16px",
+                        fontSize: isMobile ? 10 : 12,
                         fontWeight: 700,
-                        letterSpacing: "0.96px",
+                        letterSpacing: isMobile ? "0" : "0.96px",
                         color: "#696969",
+                        textAlign: isMobile ? "center" : "left",
                       }}
                     >
                       {d}
@@ -750,15 +771,17 @@ function Index() {
                           : undefined
                       }
                       style={{
-                        minHeight: 122,
-                        padding: 12,
+                        minHeight: isMobile ? 74 : 122,
+                        padding: isMobile ? 4 : 12,
                         borderRight: "1px solid #f0eef1",
                         borderBottom: "1px solid #f0eef1",
                         background: c.bg,
                         cursor: c.cursor,
                         display: "flex",
                         flexDirection: "column",
-                        gap: 8,
+                        gap: isMobile ? 3 : 8,
+                        minWidth: 0,
+                        overflow: "hidden",
                       }}
                     >
                       <div
@@ -766,23 +789,27 @@ function Index() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          gap: 6,
+                          gap: isMobile ? 2 : 6,
                         }}
                       >
                         <span
-                          style={{ fontSize: 16, fontWeight: 700, color: c.numColor }}
+                          style={{
+                            fontSize: isMobile ? 12 : 16,
+                            fontWeight: 700,
+                            color: c.numColor,
+                          }}
                         >
                           {c.dayLabel}
                         </span>
                         {c.isToday && (
                           <span
                             style={{
-                              fontSize: 12,
+                              fontSize: isMobile ? 9 : 12,
                               fontWeight: 700,
-                              letterSpacing: "0.96px",
+                              letterSpacing: isMobile ? "0" : "0.96px",
                               color: "#ffffff",
                               background: "#4a154b",
-                              padding: "2px 8px",
+                              padding: isMobile ? "1px 5px" : "2px 8px",
                               borderRadius: 90,
                             }}
                           >
@@ -802,12 +829,13 @@ function Index() {
                               gap: 1,
                               background: "#f9f0ff",
                               borderRadius: 4,
-                              padding: "4px 7px",
+                              padding: isMobile ? "2px 3px" : "4px 7px",
+                              minWidth: 0,
                             }}
                           >
                             <span
                               style={{
-                                fontSize: 12,
+                                fontSize: isMobile ? 9 : 12,
                                 fontWeight: 700,
                                 color: "#4a154b",
                                 whiteSpace: "nowrap",
@@ -819,9 +847,11 @@ function Index() {
                             </span>
                             <span
                               style={{
-                                fontSize: 12,
+                                fontSize: isMobile ? 9 : 12,
                                 color: "#696969",
                                 whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
                               }}
                             >
                               {chip.range}
@@ -831,7 +861,7 @@ function Index() {
                         {c.hasMore && (
                           <span
                             style={{
-                              fontSize: 12,
+                              fontSize: isMobile ? 9 : 12,
                               color: "#696969",
                               paddingLeft: 2,
                             }}
@@ -860,7 +890,9 @@ function Index() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "124px repeat(7, 1fr)",
+                    gridTemplateColumns: isMobile
+                      ? "54px repeat(7, minmax(0, 1fr))"
+                      : "124px repeat(7, 1fr)",
                     borderBottom: "1px solid #e6e6e6",
                     position: "sticky",
                     top: 0,
@@ -869,7 +901,7 @@ function Index() {
                 >
                   <div
                     style={{
-                      padding: "12px 10px",
+                      padding: isMobile ? "10px 4px" : "12px 10px",
                       fontSize: 12,
                       fontWeight: 700,
                       letterSpacing: "0.96px",
@@ -885,16 +917,17 @@ function Index() {
                         key={k}
                         onClick={() => openDate(k)}
                         style={{
-                          padding: "12px 10px",
+                          padding: isMobile ? "8px 3px" : "12px 10px",
                           cursor: "pointer",
                           background: k === todayKey ? "#faf6fb" : "#ffffff",
+                          minWidth: 0,
                         }}
                       >
                         <div
                           style={{
-                            fontSize: 12,
+                            fontSize: isMobile ? 10 : 12,
                             fontWeight: 700,
-                            letterSpacing: "0.96px",
+                            letterSpacing: isMobile ? "0" : "0.96px",
                             color: "#696969",
                           }}
                         >
@@ -902,7 +935,7 @@ function Index() {
                         </div>
                         <div
                           style={{
-                            fontSize: 18,
+                            fontSize: isMobile ? 12 : 18,
                             fontWeight: 700,
                             letterSpacing: "-0.0216px",
                             color: k === todayKey ? "#4a154b" : "#1d1d1d",
@@ -920,20 +953,24 @@ function Index() {
                       key={h}
                       style={{
                         display: "grid",
-                        gridTemplateColumns: "124px repeat(7, 1fr)",
+                        gridTemplateColumns: isMobile
+                          ? "54px repeat(7, minmax(0, 1fr))"
+                          : "124px repeat(7, 1fr)",
                         borderBottom: "1px solid #f4f2f5",
                       }}
                     >
                       <div
                         style={{
-                          padding: "6px 10px",
-                          fontSize: 12,
+                          padding: isMobile ? "6px 4px" : "6px 10px",
+                          fontSize: isMobile ? 11 : 12,
                           color: "#696969",
                           borderRight: "1px solid #f0eef1",
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {`${pad(h)}:00 – ${pad(h + 1)}:00`}
+                        {isMobile
+                          ? `${pad(h)}시`
+                          : `${pad(h)}:00 – ${pad(h + 1)}:00`}
                       </div>
                       {weekDayDates.map((d) => {
                         const k = keyOf(d);
@@ -1033,7 +1070,7 @@ function Index() {
             style={{
               maxWidth: 1240,
               margin: "0 auto",
-              padding: "40px 24px 96px",
+              padding: isMobile ? "24px 14px 64px" : "40px 24px 96px",
             }}
           >
             <button
@@ -1065,7 +1102,7 @@ function Index() {
               <h2
                 style={{
                   margin: 0,
-                  fontSize: 32,
+                  fontSize: isMobile ? 22 : 32,
                   fontWeight: 700,
                   lineHeight: 1.25,
                   letterSpacing: "-0.256px",
@@ -1133,10 +1170,12 @@ function Index() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "minmax(0, 1.35fr) minmax(320px, 0.65fr)",
-                gap: 32,
+                gridTemplateColumns: isMobile
+                  ? "minmax(0, 1fr)"
+                  : "minmax(0, 1.35fr) minmax(320px, 0.65fr)",
+                gap: isMobile ? 16 : 32,
                 alignItems: "start",
-                marginTop: 28,
+                marginTop: isMobile ? 20 : 28,
               }}
             >
               <div
@@ -1144,7 +1183,7 @@ function Index() {
                   background: "#ffffff",
                   border: "1px solid #e6e6e6",
                   borderRadius: 16,
-                  padding: 32,
+                  padding: isMobile ? 16 : 32,
                 }}
               >
                 <div
@@ -1181,7 +1220,9 @@ function Index() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                    gridTemplateColumns: isMobile
+                      ? "repeat(2, minmax(0, 1fr))"
+                      : "repeat(3, minmax(0, 1fr))",
                     gap: 8,
                     marginTop: 20,
                   }}
@@ -1271,7 +1312,7 @@ function Index() {
                 style={{
                   background: "#f4ede4",
                   borderRadius: 16,
-                  padding: 32,
+                  padding: isMobile ? 18 : 32,
                   display: "flex",
                   flexDirection: "column",
                   gap: 16,
@@ -1443,7 +1484,11 @@ function Index() {
       {screen === "admin" && (
         <div style={{ flex: 1, background: "#ffffff" }}>
           <div
-            style={{ maxWidth: 1240, margin: "0 auto", padding: "40px 24px 96px" }}
+            style={{
+              maxWidth: 1240,
+              margin: "0 auto",
+              padding: isMobile ? "24px 14px 64px" : "40px 24px 96px",
+            }}
           >
             <button
               onClick={() => setScreen("calendar")}
@@ -1474,7 +1519,7 @@ function Index() {
             <h2
               style={{
                 margin: "10px 0 24px",
-                fontSize: 32,
+                fontSize: isMobile ? 24 : 32,
                 fontWeight: 700,
                 lineHeight: 1.25,
                 letterSpacing: "-0.256px",
@@ -1548,9 +1593,11 @@ function Index() {
               <>
                 <div
                   style={{
-                    display: "flex",
-                    gap: 16,
-                    flexWrap: "wrap",
+                    display: "grid",
+                    gridTemplateColumns: isMobile
+                      ? "repeat(2, minmax(0, 1fr))"
+                      : "repeat(4, minmax(0, 1fr))",
+                    gap: isMobile ? 10 : 16,
                     marginBottom: 24,
                   }}
                 >
@@ -1564,17 +1611,15 @@ function Index() {
                     <div
                       key={s.l}
                       style={{
-                        flex: 1,
-                        minWidth: 200,
                         background: "#ffffff",
                         border: "1px solid #e6e6e6",
                         borderRadius: 16,
-                        padding: 24,
+                        padding: isMobile ? 14 : 24,
                       }}
                     >
                       <div
                         style={{
-                          fontSize: 50,
+                          fontSize: isMobile ? 30 : 50,
                           fontWeight: 700,
                           lineHeight: 1.12,
                           letterSpacing: "-0.6px",
@@ -1629,28 +1674,100 @@ function Index() {
                     overflow: "hidden",
                   }}
                 >
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1.1fr 0.7fr 1.1fr 0.9fr 0.7fr 90px",
-                      gap: 12,
-                      padding: "14px 20px",
-                      background: "#f4ede4",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      letterSpacing: "0.96px",
-                      color: "#696969",
-                    }}
-                  >
-                    <div>날짜</div>
-                    <div>시간</div>
-                    <div>팀</div>
-                    <div>예약자</div>
-                    <div>내선</div>
-                    <div />
-                  </div>
+                  {!isMobile && (
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1.1fr 0.7fr 1.1fr 0.9fr 0.7fr 90px",
+                        gap: 12,
+                        padding: "14px 20px",
+                        background: "#f4ede4",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        letterSpacing: "0.96px",
+                        color: "#696969",
+                      }}
+                    >
+                      <div>날짜</div>
+                      <div>시간</div>
+                      <div>팀</div>
+                      <div>예약자</div>
+                      <div>내선</div>
+                      <div />
+                    </div>
+                  )}
                   {visibleAdminRows.map((r) => {
                     const d = parseKey(r.date);
+                    const dateLabel = `${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())} (${DOW[d.getDay()]})`;
+                    const onDelete = async () => {
+                      const res = await adminDelete({ data: { id: r.id } });
+                      if (!res.ok) {
+                        setAdminErr(res.error);
+                        return;
+                      }
+                      await adminQuery.refetch();
+                      await listQuery.refetch();
+                      flash("예약을 삭제했습니다.");
+                    };
+                    const deleteBtn = (
+                      <button
+                        onClick={onDelete}
+                        style={{
+                          cursor: "pointer",
+                          border: "2px solid #cc4117",
+                          background: "#ffffff",
+                          color: "#cc4117",
+                          fontSize: 14.4,
+                          fontWeight: 700,
+                          letterSpacing: "0.144px",
+                          padding: "7px 18px",
+                          borderRadius: 90,
+                        }}
+                      >
+                        삭제
+                      </button>
+                    );
+
+                    if (isMobile) {
+                      return (
+                        <div
+                          key={r.id}
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 6,
+                            padding: "14px 14px",
+                            borderTop: "1px solid #f0eef1",
+                            fontSize: 14,
+                            background: adminTab === "past" ? "#fbfafb" : "#ffffff",
+                            color: adminTab === "past" ? "#696969" : "inherit",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "grid",
+                              gridTemplateColumns: "minmax(0,1fr) auto",
+                              gap: 10,
+                              alignItems: "center",
+                            }}
+                          >
+                            <div style={{ minWidth: 0 }}>
+                              <div style={{ fontWeight: 700, fontSize: 15 }}>
+                                {dateLabel}
+                              </div>
+                              <div style={{ fontWeight: 700, color: "#4a154b" }}>
+                                {rangeLabel(r.hours)}
+                              </div>
+                            </div>
+                            {deleteBtn}
+                          </div>
+                          <div style={{ color: "#696969", fontSize: 13 }}>
+                            {`${r.dept} · ${r.name} · 내선 ${r.ext}`}
+                          </div>
+                        </div>
+                      );
+                    }
+
                     return (
                       <div
                         key={r.id}
@@ -1665,38 +1782,13 @@ function Index() {
                           background: adminTab === "past" ? "#fbfafb" : "#ffffff",
                           color: adminTab === "past" ? "#696969" : "inherit",
                         }}
-
                       >
-                        <div>{`${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())} (${DOW[d.getDay()]})`}</div>
+                        <div>{dateLabel}</div>
                         <div style={{ fontWeight: 700 }}>{rangeLabel(r.hours)}</div>
                         <div>{r.dept}</div>
                         <div>{r.name}</div>
                         <div style={{ color: "#696969" }}>{r.ext}</div>
-                        <button
-                          onClick={async () => {
-                            const res = await adminDelete({ data: { id: r.id } });
-                            if (!res.ok) {
-                              setAdminErr(res.error);
-                              return;
-                            }
-                            await adminQuery.refetch();
-                            await listQuery.refetch();
-                            flash("예약을 삭제했습니다.");
-                          }}
-                          style={{
-                            cursor: "pointer",
-                            border: "2px solid #cc4117",
-                            background: "#ffffff",
-                            color: "#cc4117",
-                            fontSize: 14.4,
-                            fontWeight: 700,
-                            letterSpacing: "0.144px",
-                            padding: "7px 18px",
-                            borderRadius: 90,
-                          }}
-                        >
-                          삭제
-                        </button>
+                        {deleteBtn}
                       </div>
                     );
                   })}
@@ -1731,7 +1823,7 @@ function Index() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: 24,
+            padding: isMobile ? 12 : 24,
             zIndex: 40,
           }}
         >
@@ -1739,9 +1831,11 @@ function Index() {
             style={{
               width: "100%",
               maxWidth: 460,
+              maxHeight: "92vh",
+              overflowY: "auto",
               background: "#ffffff",
               borderRadius: 16,
-              padding: 32,
+              padding: isMobile ? 20 : 32,
               animation: "om-pop 0.18s ease-out",
               boxShadow: "rgba(0,0,0,0.2) 0 1px 10px 0",
             }}
@@ -1971,31 +2065,29 @@ function Index() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: 24,
+            padding: isMobile ? 10 : 24,
             zIndex: 45,
           }}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-
-
             style={{
               width: "100%",
               maxWidth: 720,
-              maxHeight: "84vh",
+              maxHeight: isMobile ? "92vh" : "84vh",
               overflowY: "auto",
               background: "#ffffff",
               borderRadius: 16,
-              padding: 32,
+              padding: isMobile ? 18 : 32,
               animation: "om-pop 0.18s ease-out",
               boxShadow: "rgba(0,0,0,0.2) 0 1px 10px 0",
             }}
           >
             <h3
               style={{
-                margin: "0 0 24px",
+                margin: isMobile ? "0 0 18px" : "0 0 24px",
                 fontFamily: "'Nanum Myeongjo', serif",
-                fontSize: 32,
+                fontSize: isMobile ? 24 : 32,
                 fontWeight: 800,
                 lineHeight: 1.25,
                 letterSpacing: "-1px",
@@ -2005,56 +2097,141 @@ function Index() {
               예약·취소 방법 안내
             </h3>
 
+            {/* 섹션 1 : 예약 방법 */}
             <div
               style={{
-                fontSize: 12,
-                fontWeight: 700,
-                letterSpacing: "0.96px",
-                textTransform: "uppercase",
-                color: "#696969",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                background: "#f9f0ff",
+                borderLeft: "6px solid #4a154b",
+                borderRadius: 10,
+                padding: isMobile ? "12px 14px" : "14px 18px",
               }}
             >
-              예약하기
+              <span
+                style={{
+                  fontSize: isMobile ? 18 : 22,
+                  fontWeight: 800,
+                  color: "#4a154b",
+                  letterSpacing: "-0.4px",
+                }}
+              >
+                예약 방법
+              </span>
+              <span
+                style={{
+                  fontSize: isMobile ? 12 : 13,
+                  color: "#696969",
+                  fontWeight: 700,
+                }}
+              >
+                4단계
+              </span>
             </div>
-            <ol
+            <div
               style={{
-                margin: "12px 0 28px",
-                paddingLeft: 20,
                 display: "flex",
                 flexDirection: "column",
-                gap: 8,
-                fontSize: 16,
-                lineHeight: 1.55,
+                gap: 12,
+                margin: isMobile ? "14px 0 28px" : "18px 0 36px",
               }}
             >
-              <li>달력에서 원하는 날짜를 클릭합니다.</li>
-              <li>
-                예약 화면에서 사용할 시간 블록을 선택합니다. 여러 블록을 함께 선택할
-                수 있고, 보라색으로 채워진 시간은 이미 예약된 시간입니다.
-              </li>
-              <li>팀, 예약자 이름, 내선 뒷 4자리, 비밀번호 4자리를 입력합니다.</li>
-              <li>
-                예약하기를 누르면 완료되며 달력에 팀명, 내선 번호, 시간이 표시됩니다.
-              </li>
-            </ol>
+              {[
+                {
+                  n: "1",
+                  t: "달력에서 원하는 날짜를 클릭합니다.",
+                },
+                {
+                  n: "2",
+                  t: "예약 화면에서 사용할 시간 블록을 선택합니다. 여러 블록을 함께 선택할 수 있고, 보라색으로 채워진 시간은 이미 예약된 시간입니다.",
+                },
+                {
+                  n: "3",
+                  t: "팀, 예약자 이름, 내선 뒷 4자리, 비밀번호 4자리를 입력합니다.",
+                },
+                {
+                  n: "4",
+                  t: "예약하기를 누르면 완료되며 달력에 팀명, 내선 번호, 시간이 표시됩니다.",
+                },
+              ].map((s) => (
+                <div
+                  key={s.n}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: `${isMobile ? 28 : 32}px minmax(0, 1fr)`,
+                    gap: 12,
+                    alignItems: "start",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: isMobile ? 28 : 32,
+                      height: isMobile ? 28 : 32,
+                      borderRadius: 90,
+                      background: "#4a154b",
+                      color: "#ffffff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: isMobile ? 13 : 15,
+                      fontWeight: 700,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {s.n}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: isMobile ? 14 : 16,
+                      lineHeight: 1.55,
+                      paddingTop: 3,
+                    }}
+                  >
+                    {s.t}
+                  </div>
+                </div>
+              ))}
+            </div>
 
+            {/* 섹션 2 : 예약 변경·취소 방법 */}
             <div
               style={{
-                fontSize: 12,
-                fontWeight: 700,
-                letterSpacing: "0.96px",
-                textTransform: "uppercase",
-                color: "#696969",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                background: "#f4ede4",
+                borderLeft: "6px solid #cc4117",
+                borderRadius: 10,
+                padding: isMobile ? "12px 14px" : "14px 18px",
               }}
             >
-              수정·취소하기
+              <span
+                style={{
+                  fontSize: isMobile ? 18 : 22,
+                  fontWeight: 800,
+                  color: "#cc4117",
+                  letterSpacing: "-0.4px",
+                }}
+              >
+                예약 변경·취소 방법
+              </span>
+              <span
+                style={{
+                  fontSize: isMobile ? 12 : 13,
+                  color: "#696969",
+                  fontWeight: 700,
+                }}
+              >
+                4단계
+              </span>
             </div>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: 20,
-                margin: "16px 0 28px",
+                gap: isMobile ? 18 : 20,
+                margin: isMobile ? "14px 0 24px" : "18px 0 28px",
               }}
             >
               {helpSteps.map((s) => (
@@ -2062,23 +2239,24 @@ function Index() {
                   key={s.n}
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "40px minmax(0, 1fr)",
-                    gap: 16,
+                    gridTemplateColumns: `${isMobile ? 28 : 40}px minmax(0, 1fr)`,
+                    gap: isMobile ? 12 : 16,
                     alignItems: "start",
                   }}
                 >
                   <div
                     style={{
-                      width: 40,
-                      height: 40,
+                      width: isMobile ? 28 : 40,
+                      height: isMobile ? 28 : 40,
                       borderRadius: 90,
-                      background: "#4a154b",
+                      background: "#cc4117",
                       color: "#ffffff",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: 16,
+                      fontSize: isMobile ? 13 : 16,
                       fontWeight: 700,
+                      flexShrink: 0,
                     }}
                   >
                     {s.n}
@@ -2086,18 +2264,28 @@ function Index() {
                   <div
                     style={{ display: "flex", flexDirection: "column", gap: 10 }}
                   >
-                    <div style={{ fontSize: 16, fontWeight: 700, lineHeight: 1.5 }}>
+                    <div
+                      style={{
+                        fontSize: isMobile ? 14 : 16,
+                        fontWeight: 700,
+                        lineHeight: 1.5,
+                      }}
+                    >
                       {s.title}
                     </div>
                     <div
-                      style={{ fontSize: 14, lineHeight: 1.55, color: "#696969" }}
+                      style={{
+                        fontSize: isMobile ? 13 : 14,
+                        lineHeight: 1.55,
+                        color: "#696969",
+                      }}
                     >
                       {s.desc}
                     </div>
                     <div
                       style={{
                         width: "100%",
-                        height: s.height,
+                        height: isMobile ? Math.round(s.height * 0.62) : s.height,
                         borderRadius: 12,
                         overflow: "hidden",
                         border: "1px solid #e6e6e6",
@@ -2124,8 +2312,8 @@ function Index() {
               style={{
                 background: "#f4ede4",
                 borderRadius: 12,
-                padding: 20,
-                fontSize: 14,
+                padding: isMobile ? 16 : 20,
+                fontSize: isMobile ? 13 : 14,
                 lineHeight: 1.55,
                 color: "#1d1d1d",
               }}
@@ -2139,6 +2327,7 @@ function Index() {
                 onClick={() => setHelp(false)}
                 style={{
                   marginLeft: "auto",
+                  width: isMobile ? "100%" : "auto",
                   cursor: "pointer",
                   border: "none",
                   background: "#4a154b",
