@@ -738,11 +738,12 @@ function Index() {
                     <div
                       key={d}
                       style={{
-                        padding: "14px 16px",
-                        fontSize: 12,
+                        padding: isMobile ? "8px 4px" : "14px 16px",
+                        fontSize: isMobile ? 10 : 12,
                         fontWeight: 700,
-                        letterSpacing: "0.96px",
+                        letterSpacing: isMobile ? "0" : "0.96px",
                         color: "#696969",
+                        textAlign: isMobile ? "center" : "left",
                       }}
                     >
                       {d}
@@ -761,15 +762,17 @@ function Index() {
                           : undefined
                       }
                       style={{
-                        minHeight: 122,
-                        padding: 12,
+                        minHeight: isMobile ? 74 : 122,
+                        padding: isMobile ? 4 : 12,
                         borderRight: "1px solid #f0eef1",
                         borderBottom: "1px solid #f0eef1",
                         background: c.bg,
                         cursor: c.cursor,
                         display: "flex",
                         flexDirection: "column",
-                        gap: 8,
+                        gap: isMobile ? 3 : 8,
+                        minWidth: 0,
+                        overflow: "hidden",
                       }}
                     >
                       <div
