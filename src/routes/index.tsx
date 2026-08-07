@@ -9,6 +9,7 @@ import step2Asset from "@/assets/help-step2.png.asset.json";
 import step3Asset from "@/assets/help-step3.png.asset.json";
 import step4Asset from "@/assets/help-step4.png.asset.json";
 import { DOW, HOURS, keyOf, pad, parseKey, rangeLabel } from "@/lib/booking-utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   adminDeleteReservation,
   adminListReservations,
@@ -65,6 +66,7 @@ function Index() {
 
   const now = new Date();
   const todayKey = keyOf(new Date());
+  const isMobile = useIsMobile();
 
   const [screen, setScreen] = useState<"calendar" | "reserve" | "admin">("calendar");
   const [view, setView] = useState<"month" | "week">("month");
@@ -436,8 +438,8 @@ function Index() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: 24,
-          padding: "16px 24px",
+          gap: isMobile ? 10 : 24,
+          padding: isMobile ? "12px 14px" : "16px 24px",
           background: "#ffffff",
           borderBottom: "1px solid #e6e6e6",
         }}
@@ -453,41 +455,50 @@ function Index() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 12,
+            gap: isMobile ? 8 : 12,
             border: "none",
             background: "transparent",
             padding: 0,
             cursor: "pointer",
+            minWidth: 0,
           }}
         >
           <img
             src={symbolAsset.url}
             alt="성남시"
-            style={{ height: 38, width: "auto", display: "block" }}
+            style={{
+              height: isMobile ? 28 : 38,
+              width: "auto",
+              display: "block",
+              flexShrink: 0,
+            }}
           />
           <span
             style={{
-              fontSize: 20,
+              fontSize: isMobile ? 16 : 20,
               fontWeight: 700,
               letterSpacing: "-0.2px",
               color: "#4a154b",
+              whiteSpace: "nowrap",
             }}
           >
             {ROOM_NAME}
           </span>
-          <span
-            style={{
-              fontSize: 14,
-              lineHeight: 1.43,
-              letterSpacing: "0.1px",
-              color: "#696969",
-            }}
-          >
-            회의실 대관
-          </span>
+          {!isMobile && (
+            <span
+              style={{
+                fontSize: 14,
+                lineHeight: 1.43,
+                letterSpacing: "0.1px",
+                color: "#696969",
+              }}
+            >
+              회의실 대관
+            </span>
+          )}
         </button>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
           <button
             onClick={() => {
               setScreen("admin");
@@ -498,10 +509,10 @@ function Index() {
               cursor: "pointer",
               background: "#4a154b",
               color: "#ffffff",
-              fontSize: 14.4,
+              fontSize: isMobile ? 13 : 14.4,
               fontWeight: 700,
               letterSpacing: "0.144px",
-              padding: "10px 24px",
+              padding: isMobile ? "8px 16px" : "10px 24px",
               borderRadius: 90,
             }}
           >
@@ -527,7 +538,7 @@ function Index() {
               position: "relative",
               maxWidth: 1240,
               margin: "0 auto",
-              padding: "56px 24px 96px",
+              padding: isMobile ? "28px 14px 64px" : "56px 24px 96px",
             }}
           >
             <h1
@@ -535,10 +546,10 @@ function Index() {
                 margin: 0,
                 textAlign: "center",
                 fontFamily: "'Nanum Myeongjo', serif",
-                fontSize: 58,
+                fontSize: isMobile ? 30 : 58,
                 fontWeight: 800,
                 lineHeight: 1.16,
-                letterSpacing: "-1.6px",
+                letterSpacing: isMobile ? "-0.8px" : "-1.6px",
                 color: "#4a154b",
               }}
             >
@@ -546,9 +557,9 @@ function Index() {
             </h1>
             <p
               style={{
-                margin: "14px 0 0",
+                margin: isMobile ? "10px 0 0" : "14px 0 0",
                 textAlign: "center",
-                fontSize: 18,
+                fontSize: isMobile ? 14 : 18,
                 lineHeight: 1.55,
                 letterSpacing: "-0.0216px",
                 color: "#696969",
