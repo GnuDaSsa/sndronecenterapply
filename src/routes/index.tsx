@@ -1005,6 +1005,9 @@ function Index() {
                       {weekDayDates.map((d) => {
                         const k = keyOf(d);
                         const b = findByHour(k, h);
+                        const day = d.getDay();
+                        const emptyBg =
+                          day === 0 ? "#fff8f8" : day === 6 ? "#f4fbff" : "#ffffff";
                         return (
                           <div
                             key={`${k}-${h}`}
@@ -1016,7 +1019,7 @@ function Index() {
                               borderRight: "1px solid #f4f2f5",
                               padding: "3px 4px",
                               cursor: "pointer",
-                              background: b ? "#4a154b" : "#ffffff",
+                              background: b ? "#4a154b" : emptyBg,
                               display: "flex",
                               alignItems: "center",
                             }}
