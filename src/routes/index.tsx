@@ -380,10 +380,8 @@ function Index() {
     await adminQuery.refetch();
   };
 
-  const statDepts = new Set(adminRows.map((r) => r.dept)).size;
   const adminPastRows = adminRows.filter((r) => isPastReservation(r));
   const adminUpcomingRows = adminRows.filter((r) => !isPastReservation(r));
-  const statUpcoming = adminUpcomingRows.length;
   const visibleAdminRows = adminTab === "past" ? adminPastRows : adminUpcomingRows;
 
 
@@ -1591,56 +1589,6 @@ function Index() {
 
             {adminAuthed && (
               <>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: isMobile
-                      ? "repeat(2, minmax(0, 1fr))"
-                      : "repeat(4, minmax(0, 1fr))",
-                    gap: isMobile ? 10 : 16,
-                    marginBottom: 24,
-                  }}
-                >
-                  {[
-                    { v: adminRows.length, l: "등록된 예약 건수" },
-                    { v: statDepts, l: "이용 팀 수" },
-                    { v: statUpcoming, l: "진행·예정 예약" },
-                    { v: adminPastRows.length, l: "과거 내역" },
-
-                  ].map((s) => (
-                    <div
-                      key={s.l}
-                      style={{
-                        background: "#ffffff",
-                        border: "1px solid #e6e6e6",
-                        borderRadius: 16,
-                        padding: isMobile ? 14 : 24,
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontSize: isMobile ? 30 : 50,
-                          fontWeight: 700,
-                          lineHeight: 1.12,
-                          letterSpacing: "-0.6px",
-                          color: "#4a154b",
-                        }}
-                      >
-                        {s.v}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: 14,
-                          color: "#696969",
-                          letterSpacing: "0.1px",
-                        }}
-                      >
-                        {s.l}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
                 <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
                   {([
                     { k: "upcoming" as const, l: `진행·예정 (${adminUpcomingRows.length})` },
