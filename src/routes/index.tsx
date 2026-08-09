@@ -759,7 +759,7 @@ function Index() {
                     borderBottom: "1px solid #e6e6e6",
                   }}
                 >
-                  {DOW.map((d) => (
+                  {DOW.map((d, idx) => (
                     <div
                       key={d}
                       style={{
@@ -767,7 +767,7 @@ function Index() {
                         fontSize: isMobile ? 10 : 12,
                         fontWeight: 700,
                         letterSpacing: isMobile ? "0" : "0.96px",
-                        color: "#696969",
+                        color: idx === 0 ? "#b91c1c" : idx === 6 ? "#0b4f8c" : "#696969",
                         textAlign: isMobile ? "center" : "left",
                       }}
                     >
