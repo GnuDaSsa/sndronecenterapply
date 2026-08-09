@@ -220,6 +220,7 @@ function Index() {
     numColor: string;
     cursor: string;
     inMonth: boolean;
+    dayOfWeek: number;
   }> = [];
   for (let i = 0; i < 42; i++) {
     const d = new Date(gridStart);
@@ -227,7 +228,23 @@ function Index() {
     if (i >= 35 && d.getMonth() !== cursor.getMonth()) break;
     const k = keyOf(d);
     const inMonth = d.getMonth() === cursor.getMonth();
+    const dayOfWeek = d.getDay();
     const groups = dayReservations(k);
+    let bg: string;
+    let numColor: string;
+    if (!inMonth) {
+      bg = "#fbfafb";
+      numColor = "#c9c6cb";
+    } else if (dayOfWeek === 0) {
+      bg = k === todayKey ? "#fff2f2" : "#fff5f5";
+      numColor = "#b91c1c";
+    } else if (dayOfWeek === 6) {
+      bg = k === todayKey ? "#e5f4ff" : "#eef8ff";
+      numColor = "#0b4f8c";
+    } else {
+      bg = k === todayKey ? "#faf6fb" : "#ffffff";
+      numColor = "#1d1d1d";
+    }
     cells.push({
       key: `${k}-${i}`,
       dayLabel: String(d.getDate()),
@@ -238,10 +255,11 @@ function Index() {
       })),
       hasMore: groups.length > 3,
       moreLabel: `+${groups.length - 3}건 더`,
-      bg: inMonth ? (k === todayKey ? "#faf6fb" : "#ffffff") : "#fbfafb",
-      numColor: inMonth ? "#1d1d1d" : "#c9c6cb",
+      bg,
+      numColor,
       cursor: inMonth ? "pointer" : "default",
       inMonth,
+      dayOfWeek,
     });
   }
   const monthCellDates = cells.map((c) => c.key.slice(0, 10));
