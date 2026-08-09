@@ -586,11 +586,12 @@ function Index() {
 
             <div
               style={{
-                display: "flex",
+                display: "grid",
+                gridTemplateColumns: isMobile
+                  ? "minmax(0, 1fr) auto"
+                  : "minmax(0, 1fr) auto minmax(0, 1fr)",
                 alignItems: "center",
-                justifyContent: "space-between",
                 gap: isMobile ? 10 : 16,
-                flexWrap: "wrap",
                 marginTop: isMobile ? 22 : 36,
               }}
             >
@@ -599,7 +600,8 @@ function Index() {
                   display: "flex",
                   alignItems: "center",
                   gap: isMobile ? 6 : 12,
-                  width: isMobile ? "100%" : undefined,
+                  gridColumn: isMobile ? "1 / -1" : undefined,
+                  justifySelf: "start",
                 }}
               >
                 <button
@@ -692,7 +694,7 @@ function Index() {
                   letterSpacing: "0.144px",
                   padding: isMobile ? "8px 14px" : "8px 24px",
                   borderRadius: 90,
-                  flex: isMobile ? "1 1 auto" : undefined,
+                  justifySelf: "center",
                 }}
               >
                 예약·취소 방법 안내
@@ -704,6 +706,7 @@ function Index() {
                   padding: 4,
                   background: "#f9f0ff",
                   borderRadius: 90,
+                  justifySelf: "end",
                 }}
               >
                 <button
