@@ -1025,6 +1025,8 @@ function Index() {
                               background: b ? "#4a154b" : emptyBg,
                               display: "flex",
                               alignItems: "center",
+                              outline: b ? "2px solid #2d0d2e" : "none",
+                              outlineOffset: b ? -2 : 0,
                             }}
                           >
                             <span
