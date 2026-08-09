@@ -586,11 +586,12 @@ function Index() {
 
             <div
               style={{
-                display: "flex",
+                display: "grid",
+                gridTemplateColumns: isMobile
+                  ? "minmax(0, 1fr) auto"
+                  : "minmax(0, 1fr) auto minmax(0, 1fr)",
                 alignItems: "center",
-                justifyContent: "space-between",
                 gap: isMobile ? 10 : 16,
-                flexWrap: "wrap",
                 marginTop: isMobile ? 22 : 36,
               }}
             >
@@ -599,7 +600,8 @@ function Index() {
                   display: "flex",
                   alignItems: "center",
                   gap: isMobile ? 6 : 12,
-                  width: isMobile ? "100%" : undefined,
+                  gridColumn: isMobile ? "1 / -1" : undefined,
+                  justifySelf: "start",
                 }}
               >
                 <button
