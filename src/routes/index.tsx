@@ -220,6 +220,7 @@ function Index() {
     numColor: string;
     cursor: string;
     inMonth: boolean;
+    dayOfWeek: number;
   }> = [];
   for (let i = 0; i < 42; i++) {
     const d = new Date(gridStart);
@@ -227,7 +228,23 @@ function Index() {
     if (i >= 35 && d.getMonth() !== cursor.getMonth()) break;
     const k = keyOf(d);
     const inMonth = d.getMonth() === cursor.getMonth();
+    const dayOfWeek = d.getDay();
     const groups = dayReservations(k);
+    let bg: string;
+    let numColor: string;
+    if (!inMonth) {
+      bg = "#fbfafb";
+      numColor = "#c9c6cb";
+    } else if (dayOfWeek === 0) {
+      bg = k === todayKey ? "#fff2f2" : "#fff5f5";
+      numColor = "#b91c1c";
+    } else if (dayOfWeek === 6) {
+      bg = k === todayKey ? "#e5f4ff" : "#eef8ff";
+      numColor = "#0b4f8c";
+    } else {
+      bg = k === todayKey ? "#faf6fb" : "#ffffff";
+      numColor = "#1d1d1d";
+    }
     cells.push({
       key: `${k}-${i}`,
       dayLabel: String(d.getDate()),
@@ -238,10 +255,11 @@ function Index() {
       })),
       hasMore: groups.length > 3,
       moreLabel: `+${groups.length - 3}건 더`,
-      bg: inMonth ? (k === todayKey ? "#faf6fb" : "#ffffff") : "#fbfafb",
-      numColor: inMonth ? "#1d1d1d" : "#c9c6cb",
+      bg,
+      numColor,
       cursor: inMonth ? "pointer" : "default",
       inMonth,
+      dayOfWeek,
     });
   }
   const monthCellDates = cells.map((c) => c.key.slice(0, 10));
@@ -741,7 +759,7 @@ function Index() {
                     borderBottom: "1px solid #e6e6e6",
                   }}
                 >
-                  {DOW.map((d) => (
+                  {DOW.map((d, idx) => (
                     <div
                       key={d}
                       style={{
@@ -749,7 +767,7 @@ function Index() {
                         fontSize: isMobile ? 10 : 12,
                         fontWeight: 700,
                         letterSpacing: isMobile ? "0" : "0.96px",
-                        color: "#696969",
+                        color: idx === 0 ? "#b91c1c" : idx === 6 ? "#0b4f8c" : "#696969",
                         textAlign: isMobile ? "center" : "left",
                       }}
                     >
@@ -910,6 +928,20 @@ function Index() {
                   </div>
                   {weekDayDates.map((d) => {
                     const k = keyOf(d);
+                    const day = d.getDay();
+                    const isSat = day === 6;
+                    const isSun = day === 0;
+                    const bg = isSun
+                      ? k === todayKey
+                        ? "#fff2f2"
+                        : "#fff5f5"
+                      : isSat
+                        ? k === todayKey
+                          ? "#e5f4ff"
+                          : "#eef8ff"
+                        : k === todayKey
+                          ? "#faf6fb"
+                          : "#ffffff";
                     return (
                       <div
                         key={k}
@@ -917,7 +949,7 @@ function Index() {
                         style={{
                           padding: isMobile ? "8px 3px" : "12px 10px",
                           cursor: "pointer",
-                          background: k === todayKey ? "#faf6fb" : "#ffffff",
+                          background: bg,
                           minWidth: 0,
                         }}
                       >
@@ -926,7 +958,7 @@ function Index() {
                             fontSize: isMobile ? 10 : 12,
                             fontWeight: 700,
                             letterSpacing: isMobile ? "0" : "0.96px",
-                            color: "#696969",
+                            color: isSun ? "#b91c1c" : isSat ? "#0b4f8c" : "#696969",
                           }}
                         >
                           {DOW[d.getDay()]}
@@ -936,7 +968,7 @@ function Index() {
                             fontSize: isMobile ? 12 : 18,
                             fontWeight: 700,
                             letterSpacing: "-0.0216px",
-                            color: k === todayKey ? "#4a154b" : "#1d1d1d",
+                            color: isSun ? "#b91c1c" : isSat ? "#0b4f8c" : k === todayKey ? "#4a154b" : "#1d1d1d",
                           }}
                         >
                           {`${d.getMonth() + 1}/${d.getDate()}`}
@@ -973,6 +1005,9 @@ function Index() {
                       {weekDayDates.map((d) => {
                         const k = keyOf(d);
                         const b = findByHour(k, h);
+                        const day = d.getDay();
+                        const emptyBg =
+                          day === 0 ? "#fff8f8" : day === 6 ? "#f4fbff" : "#ffffff";
                         return (
                           <div
                             key={`${k}-${h}`}
@@ -984,7 +1019,7 @@ function Index() {
                               borderRight: "1px solid #f4f2f5",
                               padding: "3px 4px",
                               cursor: "pointer",
-                              background: b ? "#4a154b" : "#ffffff",
+                              background: b ? "#4a154b" : emptyBg,
                               display: "flex",
                               alignItems: "center",
                             }}
