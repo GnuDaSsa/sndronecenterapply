@@ -694,7 +694,7 @@ function Index() {
                   letterSpacing: "0.144px",
                   padding: isMobile ? "8px 14px" : "8px 24px",
                   borderRadius: 90,
-                  flex: isMobile ? "1 1 auto" : undefined,
+                  justifySelf: "center",
                 }}
               >
                 예약·취소 방법 안내
@@ -706,6 +706,7 @@ function Index() {
                   padding: 4,
                   background: "#f9f0ff",
                   borderRadius: 90,
+                  justifySelf: "end",
                 }}
               >
                 <button
