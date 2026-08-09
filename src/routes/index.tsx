@@ -928,6 +928,20 @@ function Index() {
                   </div>
                   {weekDayDates.map((d) => {
                     const k = keyOf(d);
+                    const day = d.getDay();
+                    const isSat = day === 6;
+                    const isSun = day === 0;
+                    const bg = isSun
+                      ? k === todayKey
+                        ? "#fff2f2"
+                        : "#fff5f5"
+                      : isSat
+                        ? k === todayKey
+                          ? "#e5f4ff"
+                          : "#eef8ff"
+                        : k === todayKey
+                          ? "#faf6fb"
+                          : "#ffffff";
                     return (
                       <div
                         key={k}
@@ -935,7 +949,7 @@ function Index() {
                         style={{
                           padding: isMobile ? "8px 3px" : "12px 10px",
                           cursor: "pointer",
-                          background: k === todayKey ? "#faf6fb" : "#ffffff",
+                          background: bg,
                           minWidth: 0,
                         }}
                       >
@@ -944,7 +958,7 @@ function Index() {
                             fontSize: isMobile ? 10 : 12,
                             fontWeight: 700,
                             letterSpacing: isMobile ? "0" : "0.96px",
-                            color: "#696969",
+                            color: isSun ? "#b91c1c" : isSat ? "#0b4f8c" : "#696969",
                           }}
                         >
                           {DOW[d.getDay()]}
@@ -954,7 +968,7 @@ function Index() {
                             fontSize: isMobile ? 12 : 18,
                             fontWeight: 700,
                             letterSpacing: "-0.0216px",
-                            color: k === todayKey ? "#4a154b" : "#1d1d1d",
+                            color: isSun ? "#b91c1c" : isSat ? "#0b4f8c" : k === todayKey ? "#4a154b" : "#1d1d1d",
                           }}
                         >
                           {`${d.getMonth() + 1}/${d.getDate()}`}
