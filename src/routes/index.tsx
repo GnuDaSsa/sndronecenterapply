@@ -206,6 +206,11 @@ function Index() {
 
   // ---- month grid
   const cursor = parseKey(cursorKey);
+  const swipeRef = useRef<{ x: number; y: number } | null>(null);
+  const shiftMonth = (dir: number) =>
+    setCursorKey(
+      keyOf(new Date(cursor.getFullYear(), cursor.getMonth() + dir, 1)),
+    );
   const first = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
   const gridStart = new Date(first);
   gridStart.setDate(gridStart.getDate() - first.getDay());
