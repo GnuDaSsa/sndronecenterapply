@@ -206,6 +206,11 @@ function Index() {
 
   // ---- month grid
   const cursor = parseKey(cursorKey);
+  const swipeRef = useRef<{ x: number; y: number } | null>(null);
+  const shiftMonth = (dir: number) =>
+    setCursorKey(
+      keyOf(new Date(cursor.getFullYear(), cursor.getMonth() + dir, 1)),
+    );
   const first = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
   const gridStart = new Date(first);
   gridStart.setDate(gridStart.getDate() - first.getDay());
@@ -746,6 +751,20 @@ function Index() {
 
             {isMonthView && (
               <div
+                onTouchStart={(e) => {
+                  const t = e.touches[0];
+                  if (t) swipeRef.current = { x: t.clientX, y: t.clientY };
+                }}
+                onTouchEnd={(e) => {
+                  const s = swipeRef.current;
+                  const t = e.changedTouches[0];
+                  swipeRef.current = null;
+                  if (!s || !t) return;
+                  const dx = t.clientX - s.x;
+                  const dy = t.clientY - s.y;
+                  if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+                  shiftMonth(dx < 0 ? 1 : -1);
+                }}
                 style={{
                   marginTop: 20,
                   background: "#ffffff",
@@ -753,6 +772,7 @@ function Index() {
                   borderRadius: 16,
                   overflow: "hidden",
                   boxShadow: "rgba(0,0,0,0.1) 0 0 32px 0",
+                  touchAction: "pan-y",
                 }}
               >
                 <div
@@ -1059,39 +1079,6 @@ function Index() {
                 flexWrap: "wrap",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span
-                  style={{
-                    width: 14,
-                    height: 14,
-                    borderRadius: 4,
-                    background: "#4a154b",
-                    display: "inline-block",
-                  }}
-                />
-                <span
-                  style={{ fontSize: 14, color: "#696969", letterSpacing: "0.1px" }}
-                >
-                  예약됨
-                </span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span
-                  style={{
-                    width: 14,
-                    height: 14,
-                    borderRadius: 4,
-                    background: "#ffffff",
-                    border: "1px solid #e6e6e6",
-                    display: "inline-block",
-                  }}
-                />
-                <span
-                  style={{ fontSize: 14, color: "#696969", letterSpacing: "0.1px" }}
-                >
-                  예약 가능
-                </span>
-              </div>
               <div
                 style={{ fontSize: 14, color: "#696969", letterSpacing: "0.1px" }}
               >
