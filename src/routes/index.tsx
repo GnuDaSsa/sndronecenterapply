@@ -1059,39 +1059,6 @@ function Index() {
                 flexWrap: "wrap",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span
-                  style={{
-                    width: 14,
-                    height: 14,
-                    borderRadius: 4,
-                    background: "#4a154b",
-                    display: "inline-block",
-                  }}
-                />
-                <span
-                  style={{ fontSize: 14, color: "#696969", letterSpacing: "0.1px" }}
-                >
-                  예약됨
-                </span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span
-                  style={{
-                    width: 14,
-                    height: 14,
-                    borderRadius: 4,
-                    background: "#ffffff",
-                    border: "1px solid #e6e6e6",
-                    display: "inline-block",
-                  }}
-                />
-                <span
-                  style={{ fontSize: 14, color: "#696969", letterSpacing: "0.1px" }}
-                >
-                  예약 가능
-                </span>
-              </div>
               <div
                 style={{ fontSize: 14, color: "#696969", letterSpacing: "0.1px" }}
               >
