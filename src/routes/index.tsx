@@ -746,6 +746,20 @@ function Index() {
 
             {isMonthView && (
               <div
+                onTouchStart={(e) => {
+                  const t = e.touches[0];
+                  if (t) swipeRef.current = { x: t.clientX, y: t.clientY };
+                }}
+                onTouchEnd={(e) => {
+                  const s = swipeRef.current;
+                  const t = e.changedTouches[0];
+                  swipeRef.current = null;
+                  if (!s || !t) return;
+                  const dx = t.clientX - s.x;
+                  const dy = t.clientY - s.y;
+                  if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+                  shiftMonth(dx < 0 ? 1 : -1);
+                }}
                 style={{
                   marginTop: 20,
                   background: "#ffffff",
@@ -753,6 +767,7 @@ function Index() {
                   borderRadius: 16,
                   overflow: "hidden",
                   boxShadow: "rgba(0,0,0,0.1) 0 0 32px 0",
+                  touchAction: "pan-y",
                 }}
               >
                 <div
