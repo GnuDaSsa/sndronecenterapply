@@ -163,7 +163,14 @@ function Index() {
   }, [reservations]);
 
   const dayReservations = useCallback(
-    (k: string) => byDate.get(k) ?? [],
+    (k: string) =>
+      (byDate.get(k) ?? [])
+        .slice()
+        .sort(
+          (a, b) =>
+            (a.hours[0] ?? Number.POSITIVE_INFINITY) -
+            (b.hours[0] ?? Number.POSITIVE_INFINITY),
+        ),
     [byDate],
   );
 
